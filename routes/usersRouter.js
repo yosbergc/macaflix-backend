@@ -2,6 +2,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const Usuario = require('../schemas/Usuario')
 const router = express.Router()
+const checkRouter = require('../middlewares/checkUser')
 
 router.post('/', async (req, res) => {
     const { nombre, usuario, correo, clave, genero  } = req.body
@@ -25,8 +26,20 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    const usuarios = await Usuario.findAll();
-    res.json(usuarios)
+router.get('/', checkRouter, async (req, res) => {
+    const { userId } = req
+
+    if (!userId) {
+        return res.status(400).send('You need to be logged to do the request.')
+    }
+    const userFound = await Usuario.findByPk(userId, {
+        include: ['likes']
+    })
+
+    if (!userFound) {
+        return res.status(404).send('User not found')
+    }
+
+    res.json(userFound)
 })
 module.exports = router;
