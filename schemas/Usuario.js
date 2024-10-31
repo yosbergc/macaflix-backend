@@ -1,6 +1,7 @@
 const sequelize = require('../libs/sequelize')
 const { DataTypes } = require('sequelize')
-const Like = require('../schemas/Likes')
+const Like = require('./Like')
+
 const Usuario = sequelize.define('usuario', {
     id: {
         type: DataTypes.INTEGER,
@@ -15,7 +16,7 @@ const Usuario = sequelize.define('usuario', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email: {
+    correo: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
@@ -27,6 +28,11 @@ const Usuario = sequelize.define('usuario', {
     genero: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    rol: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'cliente'
     }
 })
 

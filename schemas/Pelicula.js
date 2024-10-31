@@ -1,6 +1,6 @@
-const sequelize = require('../libs/sequelize')
+const sequelize = require('../libs/sequelize');
 const { DataTypes } = require('sequelize')
-const Like = require('../schemas/Likes')
+
 const Pelicula = sequelize.define('pelicula', {
     id: {
         type: DataTypes.INTEGER,
@@ -24,8 +24,5 @@ const Pelicula = sequelize.define('pelicula', {
         allowNull: false
     }
 })
-
-Pelicula.hasMany(Like)
-Like.belongsTo(Pelicula)
 
 module.exports = Pelicula;
