@@ -36,7 +36,7 @@ const Usuario = sequelize.define('usuario', {
     }
 })
 
-Usuario.hasMany(Like)
-Like.belongsTo(Usuario)
+Usuario.hasMany(Like, { foreignKey: 'usuarioId'})
+Like.belongsTo(Usuario, { foreignKey: 'usuarioId' })
 
 module.exports = Usuario;

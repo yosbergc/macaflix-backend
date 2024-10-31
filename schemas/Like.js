@@ -10,7 +10,7 @@ const Like = sequelize.define('like', {
     }
 })
 
-Pelicula.hasMany(Like)
-Like.belongsTo(Pelicula)
+Pelicula.hasMany(Like, { foreignKey: 'peliculaId' })
+Like.belongsTo(Pelicula, { foreignKey: 'peliculaId' })
 
 module.exports = Like;
