@@ -1,7 +1,7 @@
 const sequelize = require('../libs/sequelize')
 const { DataTypes } = require('sequelize')
-
-sequelize.define('usuario', {
+const Like = require('../schemas/Likes')
+const Usuario = sequelize.define('usuario', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -29,3 +29,8 @@ sequelize.define('usuario', {
         allowNull: false
     }
 })
+
+Usuario.hasMany(Like)
+Like.belongsTo(Usuario)
+
+module.exports = Usuario;
