@@ -6,6 +6,4 @@ const sequelize = new Sequelize(process.env.DB_URI, {
     logging: true
 })
 
-sequelize.sync({ force: true })
-
 module.exports = sequelize

@@ -4,6 +4,7 @@ const router = express.Router()
 const Usuario = require('../schemas/Usuario')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { Op } = require('sequelize')
 
 router.post('/', async (req, res) => {
     const { correo, clave } = req.body
@@ -15,7 +16,7 @@ router.post('/', async (req, res) => {
         const usuarioEncontrado = await Usuario.findOne({ where: {
             [Op.or]: { correo: correo, usuario: correo }
         }})
-    
+        
         if (!usuarioEncontrado) {
             return res.status(400).send('Usuario/email o clave incorrecta.')
         }
@@ -24,7 +25,9 @@ router.post('/', async (req, res) => {
             return res.status(400).send('Usuario/email o clave incorrecta.')
         }
         const user = {
-            id: usuarioEncontrado.id
+            id: usuarioEncontrado.id,
+            email: usuarioEncontrado.correo,
+            rol: usuarioEncontrado.rol
         }
         const token = jwt.sign(user, process.env.PRIVATE_WORD, {
             expiresIn: '7d'
@@ -34,7 +37,7 @@ router.post('/', async (req, res) => {
             token
         })
     } catch(error) {
-        res.status(500).send('Error interno del servidor')
+        res.status(500).send(error)
     }
 })
 
