@@ -22,9 +22,9 @@ router.post('/', async (req, res) => {
             clave: claveEncriptada,
             genero: genero
         })
-        res.status(201).json('User created successfully')
+        res.status(201).json('Usuario creado satisfactoriamente.')
     } catch(error) {
-        res.status(400).send('We got one error, try again later.')
+        res.status(400).json('Tuvimos un error, intenta de nuevo después.')
     }
 })
 
@@ -32,7 +32,7 @@ router.get('/', checkRouter, async (req, res) => {
     const { userId } = req
 
     if (!userId) {
-        return res.status(400).send('You need to be logged to do the request.')
+        return res.status(400).json('Necesitas estar logueado para poder hacer una solicitud.')
     }
     const userFound = await Usuario.findByPk(userId, {
         include: [{
@@ -40,11 +40,10 @@ router.get('/', checkRouter, async (req, res) => {
             include: Pelicula
         }],
         attributes: { exclude: ['clave']},
-        
     })
 
     if (!userFound) {
-        return res.status(404).send('User not found')
+        return res.status(404).json('Usuario no encontrado')
     }
 
     res.json(userFound)

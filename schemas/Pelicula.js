@@ -22,6 +22,18 @@ const Pelicula = sequelize.define('pelicula', {
     duracion: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    edadMinima: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    director: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    trailerLink: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 })
 

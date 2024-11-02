@@ -9,7 +9,7 @@ const { Op } = require('sequelize')
 router.post('/', async (req, res) => {
     const { correo, clave } = req.body
     if (!correo || !clave ) {
-        return res.status(400).send('Bad request')
+        return res.status(400).json('Hubo un error en la solicitud')
     } 
 
     try {
@@ -18,11 +18,11 @@ router.post('/', async (req, res) => {
         }})
         
         if (!usuarioEncontrado) {
-            return res.status(400).send('Usuario/email o clave incorrecta.')
+            return res.status(400).json('Usuario/email o clave incorrecta.')
         }
         const claveCorrecta = await bcrypt.compare(clave, usuarioEncontrado.clave)
         if (!claveCorrecta) {
-            return res.status(400).send('Usuario/email o clave incorrecta.')
+            return res.status(400).json('Usuario/email o clave incorrecta.')
         }
         const user = {
             id: usuarioEncontrado.id,
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
             token
         })
     } catch(error) {
-        res.status(500).send(error)
+        res.status(500).json(error)
     }
 })
 
